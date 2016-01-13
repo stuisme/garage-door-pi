@@ -6,7 +6,7 @@ const garage = require('./lib/garage');
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-  
+
   port: 8000
 });
 
@@ -24,7 +24,7 @@ server.route({
   path: '/status',
   handler: function(request, reply) {
     return garage.status(function(response) {
-      reply(JSON.stringify({
+      return reply(JSON.stringify({
         status: response
       }));
     });
