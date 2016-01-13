@@ -32,17 +32,18 @@ server.route({
   }
 });
 
-//
-// server.route({
-//     method: 'POST',
-//     path: '/toggle',
-//     handler: function(request, reply) {
-//       return garage.toggle(function(response) {
-//           reply(JSON.stringify({
-//             status: response
-//           }););
-//         }
-//       });
+
+server.route({
+  method: 'POST',
+  path: '/toggle',
+  handler: function(request, reply) {
+    return garage.toggle().then(function(response) {
+      return reply({
+        status: response
+      });
+    });
+  }
+});
 
 // Start the server
 server.start((err) => {
