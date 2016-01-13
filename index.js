@@ -70,9 +70,10 @@ var triggered = false;
 setInterval(function(){
   garage.status().then(function(status){
     var date = new Date();
-    if (date.getHour() >= 9 && status.value === 1){
+    if (date.getHours() >= 22 && status.value === 0){ //change this after testing
       if(!triggered){
         triggered = true;
+        console.log('triggered but not sent')
       }else{
         triggered = false;
         console.log('send message')
@@ -81,4 +82,4 @@ setInterval(function(){
   });
 
 
-}, 1000 * 60 * 10) //ten minutes
+}, 1000 * 60) //ten minutes  change this to * 10 after testing
