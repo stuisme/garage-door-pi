@@ -1,7 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
-const garage = require('../lib/garage');
+const garage = require('./lib/garage');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -20,46 +20,31 @@ server.route({
 });
 
 server.route({
-    method: 'GET',
-    path: '/status',
-    handler: function(request, reply) {
-      return garage.status(function(response) {
-          reply(JSON.stringify({
-              status: response
-            });
-          });
-      }
-    });
-
-  server.route({
-      method: 'POST',
-      path: '/toggle',
-      handler: function(request, reply) {
-        return garage.toggle(function(response) {
-            reply(JSON.stringify({
-                status: response
-              });
-            })
-        });
-    }
-  });
-
-server.route({
-  method: 'POST',
-  path: '/toggle',
+  method: 'GET',
+  path: '/status',
   handler: function(request, reply) {
-    return garage.log(function(response) {
-      reply(response)
-    })
-  });
-}
+    return garage.status(function(response) {
+      reply(JSON.stringify({
+        status: response
+      }));
+    });
+  }
 });
 
-
+//
+// server.route({
+//     method: 'POST',
+//     path: '/toggle',
+//     handler: function(request, reply) {
+//       return garage.toggle(function(response) {
+//           reply(JSON.stringify({
+//             status: response
+//           }););
+//         }
+//       });
 
 // Start the server
 server.start((err) => {
-
   if (err) {
     throw err;
   }
