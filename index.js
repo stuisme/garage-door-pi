@@ -23,7 +23,8 @@ server.route({
   method: 'GET',
   path: '/status',
   handler: function(request, reply) {
-    return garage.status(function(response) {
+    return garage.status().then(function(response) {
+      console.log('response:', response)
       return reply(JSON.stringify({
         status: response
       }));
