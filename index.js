@@ -6,7 +6,6 @@ const garage = require('./lib/garage');
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-
   port: 8000
 });
 
@@ -51,8 +50,6 @@ server.route({
   }
 });
 
-
-
 // Start the server
 server.start((err) => {
   if (err) {
@@ -62,19 +59,26 @@ server.start((err) => {
 });
 
 
+/*
 
-//watch for contact status and update log file
-//possible email/text/twitter/other
-
-
-/* api
-
-GET: Get door status
-  Read contact state
-
-POST: Toggle the Door status
-  Send to relay
-
-GET: Log file
+Send email or text or direct message if it later than 9 and open for longer than 10 min
 
 */
+
+var triggered = false;
+
+setInterval(function(){
+  garage.status().then(function(status){
+    var date = new Date();
+    if (date.getHour() >= 9 && status.value === 1){
+      if(!triggered){
+        triggered = true;
+      }else{
+        triggered = false;
+        console.log('send message')
+      }
+    }
+  });
+
+
+}, 1000 * 60 * 10) //ten minutes
