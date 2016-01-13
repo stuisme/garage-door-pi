@@ -24,14 +24,10 @@ server.route({
   path: '/status',
   handler: function(request, reply) {
     return garage.status().then(function(response) {
-      console.log('response:', response)
-      return reply({
-        status: response
-      });
+      return reply(response);
     });
   }
 });
-
 
 server.route({
   method: 'POST',
@@ -44,6 +40,18 @@ server.route({
     });
   }
 });
+
+server.route({
+  method: 'GET',
+  path: '/log',
+  handler: function(request, reply) {
+    return garage.log().then(function(response) {
+      return reply(response);
+    });
+  }
+});
+
+
 
 // Start the server
 server.start((err) => {
