@@ -25,9 +25,9 @@ server.route({
   handler: function(request, reply) {
     return garage.status().then(function(response) {
       console.log('response:', response)
-      return reply(JSON.stringify({
+      return reply({
         status: response
-      }));
+      });
     });
   }
 });
