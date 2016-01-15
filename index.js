@@ -85,7 +85,9 @@ setInterval(function() {
   }, 1000 * 60 * 10) //ten minutes
 
 
-var currentStatus;
+var currentStatus = {
+  value:null;
+};
 
 setInterval(() => {
   garage.status().then((status) => {
@@ -94,4 +96,4 @@ setInterval(() => {
         currentStatus = status;
       }
   });
-}, 1000 * 1) //5 sec
+}, 1000 * 1) //1 sec
