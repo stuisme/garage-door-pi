@@ -91,6 +91,7 @@ setInterval(() => {
   garage.status().then((status) => {
       if(currentStatus.value !== status.value){
         garage.log('Garage Door is now' + status.text);
+        currentStatus = status;
       }
   });
-}, 1000 * 5) //5 minutes
+}, 1000 * 1) //5 sec
