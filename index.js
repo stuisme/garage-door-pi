@@ -6,7 +6,10 @@ const garage = require('./lib/garage');
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-  port: 8000
+  port: 8000,
+  routes: {
+    cors: true
+  }
 });
 
 // Add the route
@@ -62,24 +65,32 @@ server.start((err) => {
 /*
 
 Send email or text or direct message if it later than 9 and open for longer than 10 min
-
 */
 
 var triggered = false;
 
-setInterval(function(){
-  garage.status().then(function(status){
-    var date = new Date();
-    if (date.getHours() >= 22 && status.value === 0){ //change this after testing
-      if(!triggered){
-        triggered = true;
-        console.log('triggered but not sent')
-      }else{
-        triggered = false;
-        console.log('send message')
+setInterval(function() {
+    garage.status().then((status) => {
+      var date = new Date();
+      if (date.getHours() >= 22 && status.value === 1) {
+        if (!triggered) {
+          triggered = true;
+          console.log('triggered but not sent')
+        } else {
+          triggered = false;
+          console.log('send message')
+        }
       }
-    }
+    });
+  }, 1000 * 60 * 10) //ten minutes
+
+
+var currentStatus;
+
+setInterval(() => {
+  garage.status().then((status) => {
+      if(currentStatus.value !== status.value){
+        garage.log('Garage Door is now' + status.text);
+      }
   });
-
-
-}, 1000 * 60) //ten minutes  change this to * 10 after testing
+}, 1000 * 5) //5 minutes
