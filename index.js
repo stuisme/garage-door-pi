@@ -86,7 +86,7 @@ setInterval(function() {
 
 
 var currentStatus = {
-  value:null;
+  value:null
 };
 
 setInterval(() => {
