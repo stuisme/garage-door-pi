@@ -1,7 +1,11 @@
 'use strict';
 
+const dotenv = require('dotenv').config();
+
 const Hapi = require('hapi');
 const garage = require('./lib/garage');
+const twitter = require('./lib/twitter');
+
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -78,7 +82,7 @@ setInterval(function() {
           console.log('triggered but not sent')
         } else {
           triggered = false;
-          console.log('send message')
+          twitter.dm('terrymooreii', 'Your garage door is open');
         }
       }
     });
@@ -86,14 +90,14 @@ setInterval(function() {
 
 
 var currentStatus = {
-  value:null
+  value: null
 };
 
 setInterval(() => {
-  garage.status().then((status) => {
-      if(currentStatus.value !== status.value){
-        garage.log('Garage Door is now' + status.text);
+    garage.status().then((status) => {
+      if (currentStatus.value !== status.value) {
+        garage.log('Garage Door is now ' + status.text);
         currentStatus = status;
       }
-  });
-}, 1000 * 1) //1 sec
+    });
+  }, 1000 * 1) //1 sec
