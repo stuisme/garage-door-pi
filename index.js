@@ -84,6 +84,7 @@ function notifyOpenDoor(){
         openSeconds++;
     }else if(openSeconds === notificationTimeSeconds){
         twitter.dm(config.notifications.twitter.screenName, openMessage);
+        openSeconds = 0;
     }else{
       openSeconds = 0;
     }
