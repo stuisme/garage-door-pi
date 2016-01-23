@@ -12,7 +12,9 @@
 
   $('#toggleBtn').on('click', function(){
     $('#toggleBtn').prop("disabled",true);
+
     toggleGarageDoor();
+
     setTimeout(function(){
       $('#toggleBtn').prop("disabled",false);
     }, 1000 * 10); //10 seconds
