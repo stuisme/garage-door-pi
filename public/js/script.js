@@ -1,6 +1,5 @@
 
 (function(document, window, $){
-
   var apiUrl = 'http://' +  window.location.hostname + ':' + window.location.port;
 
   var garageDoorStatus = function(){
@@ -15,13 +14,10 @@
     toggleGarageDoor();
   });
 
-
-  setTimeout(function(){
+  setInterval(function(){
     garageDoorStatus().done(function(response){
       $('#status').text(response.text);
     });
   }, 1000)
-
-
 
 })(document, window, $)
