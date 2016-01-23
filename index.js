@@ -80,7 +80,7 @@ var currentStatus = {
 
 function notifyOpenDoor(){
   garage.status().then((status) => {
-    if (status.value === 1 && openSeconds > 0 && openSeconds < notificationTimeSeconds) {
+    if (status.value === 1 && openSeconds >= 0 && openSeconds < notificationTimeSeconds) {
         openSeconds++;
     }else if(openSeconds === notificationTimeSeconds){
         twitter.dm(config.notifications.twitter.screenName, openMessage);
