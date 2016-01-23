@@ -57,6 +57,16 @@ server.route({
   }
 });
 
+server.route({
+    method: 'GET',
+    path: '/{param*}',
+    handler: {
+        directory: {
+            path: 'public'
+        }
+    }
+});
+
 // Start the server
 server.start((err) => {
   if (err) {
