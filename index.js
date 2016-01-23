@@ -3,6 +3,7 @@
 const dotenv = require('dotenv').config();
 const config = require('./config');
 const Hapi = require('hapi');
+const Path = require('path');
 const garage = require('./lib/garage');
 const twitter = require('./lib/twitter');
 
@@ -57,22 +58,32 @@ server.route({
   }
 });
 
-server.route({
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-        directory: {
-            path: 'public'
-        }
-    }
-});
 
-// Start the server
-server.start((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Server running at:', server.info.uri);
+
+server.register(require('inert'), (err) => {
+
+    if (err) {
+        throw err;
+    }
+
+    server.route({
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+            directory: {
+                path: 'public'
+            }
+        }
+    });
+    // Start the server
+    server.start((err) => {
+      if (err) {
+        throw err;
+      }
+      console.log('Server running at:', server.info.uri);
+    });
+
+
 });
 
 
