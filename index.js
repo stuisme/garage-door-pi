@@ -58,10 +58,7 @@ server.route({
   }
 });
 
-
-
 server.register(require('inert'), (err) => {
-
     if (err) {
         throw err;
     }
@@ -82,10 +79,7 @@ server.register(require('inert'), (err) => {
       }
       console.log('Server running at:', server.info.uri);
     });
-
-
 });
-
 
 /*
 
