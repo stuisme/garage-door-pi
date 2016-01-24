@@ -24,6 +24,6 @@
     garageDoorStatus().done(function(response){
       $('#status').text(response.text);
     });
-  }, 1000)
+  }, 1000 * 5);
 
 })(document, window, $)
