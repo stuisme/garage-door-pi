@@ -82,9 +82,9 @@ server.register(require('inert'), (err) => {
 });
 
 /*
-
-Send email or text or direct message if it later than 9 and open for longer than 10 min
-*/
+ Send direct message via twitter if garage door is open for X number of minutes.
+ Also log the door opening and closing 
+ */
 
 var openSeconds = 0;
 var notificationTimeSeconds = config.notifications.timeBeforeNotification * 60;
