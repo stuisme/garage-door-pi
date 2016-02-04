@@ -83,12 +83,12 @@ server.register(require('inert'), (err) => {
 
 /*
  Send direct message via twitter if garage door is open for X number of minutes.
- Also log the door opening and closing 
+ Also log the door opening and closing
  */
 
 var openSeconds = 0;
+var resendCount = 0;
 var notificationTimeSeconds = config.notifications.timeBeforeNotification * 60;
-var openMessage = config.notifications.openMessage.replace(/{time}/gi, config.notifications.timeBeforeNotification);
 var currentStatus = {
   value: null
 };
@@ -98,9 +98,13 @@ function notifyOpenDoor(){
     if (status.value === 1 && openSeconds >= 0 && openSeconds < notificationTimeSeconds) {
         openSeconds++;
     }else if(openSeconds === notificationTimeSeconds){
+        resendCount++;
+        var timeOpen = config.notifications.timeBeforeNotification * resendCount;
+        var openMessage = new Date().toString() + ' ' + config.notifications.openMessage.replace(/{time}/gi, timeOpen);
         twitter.dm(config.notifications.twitter.screenName, openMessage);
         openSeconds = 0;
     }else{
+      resendCount = 0;
       openSeconds = 0;
     }
   });
