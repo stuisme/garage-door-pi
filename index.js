@@ -7,7 +7,7 @@ const Hapi = require('hapi');
 const Animator = require('./lib/animator');
 var serialport = require('serialport');
 var SerialPort = serialport.SerialPort;
-var http = require('http');
+var rest = require('restler');
 
 
 // Create a server with a host and port
@@ -60,23 +60,37 @@ server.register(require('inert'), function(err) {
     });
 });
 
+var lock = false;
+
+var handleMessage = function(message){
+  lock = true;
+
+  animator.animate(function(){
+    rest.post('http://scopecreepbot.azurewebsites.net/alexa/' + message.Id +'/ack', {})
+      .on('complete', function(data, response) {
+        if (response.statusCode == 201) {
+          // you can get at the raw response like this...
+        }
+        lock = false;
+      });
+  });
+
+};
+
 setInterval(function(){
 
-  var url = 'http://scopecreepbot.azurewebsites.net/alexa';
+  if (lock === true) return;
 
+  rest.get('http://scopecreepbot.azurewebsites.net/alexa').on('complete', function(data) {
 
-  var options = {
-    host: 'scopecreepbot.azurewebsites.net',
-    port: 80,
-    path: '/alexa'
-  };
+    console.log((new Date()).toUTCString() + ": " + JSON.stringify(data));
+    if (!data || data.length == 0){
+      return;
+    }
+    var message = data[0];
 
-  http.get(options, function(resp){
-    resp.on('data', function(chunk){
-      var data = JSON.parse(chunk.toString());
-      console.log(data);
-    });
-  }).on("error", function(e){
-    console.log("Got error: " + e.message);
+    handleMessage(message);
+
   });
+
 }, (1500)) ;//1 sec

@@ -20,6 +20,7 @@
     "inert": "^3.2.0",
     "merge": "^1.2.0",
     "onoff": "^1.0.3",
+    "restler": "^3.4.0",
     "serialport": "^2.0.6",
     "twitter": "^1.2.5"
   }
