@@ -7,7 +7,7 @@
   };
 
   var toggleGarageDoor = function(){
-    return $.post(apiUrl + '/toggle');
+    return $.get(apiUrl + '/animate');
   }
 
   $('#toggleBtn').on('click', function(){
